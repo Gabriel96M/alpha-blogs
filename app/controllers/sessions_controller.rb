@@ -10,7 +10,7 @@ def create
             flash[:notice] = 'Logged in successfully'
             redirect_to user  
         else
-            flash.now[:alert] = 'Something went wrong!'
+            flash.now[:alert] = 'There was something wrong with your login details.'
             render 'new'
         end
         

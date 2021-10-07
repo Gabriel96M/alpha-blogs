@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:edit, :update]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    @users = Users.paginate(page: params[:page], per_page: 5)
+    @users = User.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /users/1
@@ -29,7 +31,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        session[:user_id] = @user.id
+        format.html { redirect_to @user, notice: "Welcome #{@user.username} you have successfully signed up."}
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -57,9 +60,10 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: 'Account and all associated articles successfully deleted.' }
       format.json { head :no_content }
     end
+    session[:user_id] = nil if @user == current_user
   end
 
   private
@@ -71,5 +75,12 @@ class UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:username, :email, :password)
+    end
+
+    def require_same_user
+      if current_user != @user && !current_user.admin?
+        flash[:alert] = "You can only edit or delete your own account"
+        redirect_to @user
+      end
     end
 end

@@ -10,10 +10,10 @@ def create
             flash[:notice] = 'Logged in successfully'
             redirect_to user  
         else
-            flash.now[:notice] = 'Something went wrong!'
+            flash.now[:alert] = 'Something went wrong!'
             render 'new'
         end
-    
+        
 end
 
 def destroy

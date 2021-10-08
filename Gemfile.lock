@@ -139,6 +139,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rake (13.0.3)
     regexp_parser (2.1.1)
+    rexml (3.2.5)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -205,6 +206,7 @@ DEPENDENCIES
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
   rails_12factor (= 0.0.2)
+  rexml
   sass-rails (>= 6)
   selenium-webdriver
   sqlite3 (~> 1.4)
